@@ -56,26 +56,26 @@
         let presentationConnection;
     
         document.querySelector('#start').addEventListener('click', function() {
-        log('Starting presentation request...');
+        console.log('Starting presentation request...');
         presentationRequest.start()
         .then(connection => {
-            log('> Connected to ' + connection.url + ', id: ' + connection.id);
+            console.log('> Connected to ' + connection.url + ', id: ' + connection.id);
         })
         .catch(error => {
-            log('> ' + error.name + ': ' + error.message);
+            console.log('> ' + error.name + ': ' + error.message);
         });
         });
     
         presentationRequest.addEventListener('connectionavailable', function(event) {
         presentationConnection = event.connection;
         presentationConnection.addEventListener('close', function() {
-            log('> Connection closed.');
+            console.log('> Connection closed.');
         });
         presentationConnection.addEventListener('terminate', function() {
-            log('> Connection terminated.');
+            console.log('> Connection terminated.');
         });
         presentationConnection.addEventListener('message', function(event) {
-            log('> ' + event.data);
+            console.log('> ' + event.data);
         });
         });
     
@@ -83,17 +83,17 @@
         const message = document.querySelector('#message').value.trim();
         const lang = document.body.lang || 'en-US';
     
-        log('Sending "' + message + '"...');
+        console.log('Sending "' + message + '"...');
         presentationConnection.send(JSON.stringify({message, lang}));
         });
     
         document.querySelector('#close').addEventListener('click', function() {
-        log('Closing connection...');
+        console.log('Closing connection...');
         presentationConnection.close();
         });
     
         document.querySelector('#terminate').addEventListener('click', function() {
-        log('Terminating connection...');
+        console.log('Terminating connection...');
         presentationConnection.terminate();
         });
     
@@ -102,10 +102,10 @@
     
         presentationRequest.reconnect(presentationId)
         .then(connection => {
-            log('Reconnected to ' + connection.id);
+            console.log('Reconnected to ' + connection.id);
         })
         .catch(error => {
-            log('Presentation.reconnect() error, ' + error.name + ': ' + error.message);
+            console.log('Presentation.reconnect() error, ' + error.name + ': ' + error.message);
         });
         });
     
@@ -113,13 +113,13 @@
     
         presentationRequest.getAvailability()
         .then(availability => {
-        log('Available presentation displays: ' + availability.value);
+        console.log('Available presentation displays: ' + availability.value);
         availability.addEventListener('change', function() {
-            log('> Available presentation displays: ' + availability.value);
+            console.log('> Available presentation displays: ' + availability.value);
         });
         })
         .catch(error => {
-        log('Presentation availability not supported, ' + error.name + ': ' +
+        console.log('Presentation availability not supported, ' + error.name + ': ' +
             error.message);
         });
     
